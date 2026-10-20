@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "tatsujin-time",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": false,
+  "preview_urls": false,
+  // npm run build で dist/tatsujin-time/ に出力する。公開URLは https://game.chozo.net/tatsujin-time/
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "routes": [
+    {"pattern": "game.chozo.net/tatsujin-time", "zone_name": "chozo.net"},
+    {"pattern": "game.chozo.net/tatsujin-time/*", "zone_name": "chozo.net"}
+  ]
+}

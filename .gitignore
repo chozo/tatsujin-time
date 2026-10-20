@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+.wrangler/
+tools/shots/
+tools/sfx/
+tools/promo/bgm.wav

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#120a14">
+<title>達人の時間</title>
+<meta name="description" content="挑戦を重ねるほど、時間がゆっくり流れるように感じられる。頭上から落ちてくる物体をすべて斬り、達人のスローモーションの世界を体験するブラウザゲーム。">
+<!-- OGP（SNSで共有したときの表示）。画像とページのURLは絶対URLにする -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="達人の時間">
+<meta property="og:title" content="達人の時間">
+<meta property="og:description" content="挑戦を重ねるほど、時間がゆっくり流れるように感じられる。頭上から落ちてくる物体をすべて斬り、達人のスローモーションの世界を体験するブラウザゲーム。">
+<meta property="og:url" content="https://game.chozo.net/tatsujin-time/">
+<meta property="og:image" content="https://game.chozo.net/tatsujin-time/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="達人の時間：挑戦するたびに時がゆっくり見えてくる。ステージ5で果物や薪を斬る前と、斬った瞬間">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="達人の時間">
+<meta name="twitter:description" content="挑戦を重ねるほど、時間がゆっくり流れるように感じられる。頭上から落ちてくる物体をすべて斬り、達人のスローモーションの世界を体験するブラウザゲーム。">
+<meta name="twitter:image" content="https://game.chozo.net/tatsujin-time/ogp.png">
+<link rel="stylesheet" href="./src/style.css">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="app" data-phase="title">
+  <canvas id="gl"></canvas>
+  <div id="vignette"></div>
+  <canvas id="fx"></canvas>
+
+  <div id="hud">
+    <div class="clock feel"><span class="lbl">体感</span><span id="t-feel">20.0</span><span class="u">秒</span></div>
+    <div id="count"><span id="count-n">0</span><span class="u">斬</span></div>
+    <div class="clock real"><span class="lbl">現実</span><span id="t-real">0.000</span><span class="u">秒</span></div>
+  </div>
+
+  <div id="speed"></div>
+  <div id="msg"></div>
+
+  <section id="title" class="panel">
+    <p class="kicker" id="t-kicker">剣の達人には、時が5倍遅く流れる</p>
+    <h1>達人の時間</h1>
+    <p class="lead training-only">このゲームでは、挑戦を重ねるほど、<br>時間がゆっくり流れるように感じられます。<br>経験を積んで達人の境地にいたり、<br>まるでスローモーションのような<br>世界を体験してください。</p>
+    <p class="how"><span id="how-what">指でなぞって、舞い落ちる葉を斬れ。</span><span id="how-pair"><br>まずは常人の目で <b id="how-real">5秒</b>。<br>次に達人の目で、体感 <b id="how-feel">25秒</b>。</span></p>
+    <div id="dan-select" class="training-only"></div>
+    <p class="how training-only" id="t-progress"></p>
+    <button id="btn-start" class="btn primary">開始</button>
+    <button id="btn-reset-title" class="btn small training-only">最初からやり直す</button>
+  </section>
+
+  <section id="intro" class="panel hidden">
+    <p class="kicker" id="intro-kicker">ステージ4</p>
+    <h2 id="intro-head">薪は縦にしか斬れない</h2>
+    <svg id="intro-pic" viewBox="0 0 300 150" aria-hidden="true">
+        <defs>
+          <linearGradient id="bark" x1="0" x2="1"><stop offset="0" stop-color="#4a2c18"/><stop offset="0.5" stop-color="#7a4a28"/><stop offset="1" stop-color="#3e2414"/></linearGradient>
+        </defs>
+        <g transform="translate(75 0)">
+          <rect x="-22" y="22" width="44" height="96" rx="5" fill="url(#bark)"/>
+          <path d="M-10 26 V114 M2 26 V114 M13 26 V114" stroke="#2e1a0e" stroke-width="2" fill="none" opacity="0.7"/>
+          <ellipse cx="0" cy="22" rx="22" ry="7" fill="#d8b47c"/>
+          <path d="M0 4 V136" stroke="#fff6dc" stroke-width="4" stroke-linecap="round"/>
+          <path d="M0 4 V136" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="0" y="148" text-anchor="middle" class="ok">○ 縦は割れる</text>
+        </g>
+        <g transform="translate(225 0)">
+          <rect x="-22" y="22" width="44" height="96" rx="5" fill="url(#bark)"/>
+          <path d="M-10 26 V114 M2 26 V114 M13 26 V114" stroke="#2e1a0e" stroke-width="2" fill="none" opacity="0.7"/>
+          <ellipse cx="0" cy="22" rx="22" ry="7" fill="#d8b47c"/>
+          <path d="M-60 70 H-24" stroke="#fff6dc" stroke-width="4" stroke-linecap="round"/>
+          <path d="M-22 70 l-12 -10 M-22 70 l-14 2 M-22 70 l-10 12" stroke="#ffe6a0" stroke-width="2.5" stroke-linecap="round"/>
+          <text x="0" y="148" text-anchor="middle" class="ng">× 横は弾かれる</text>
+        </g>
+      </svg>
+    <p class="how" id="intro-text"></p>
+    <button id="btn-intro-start" class="btn primary">開始</button>
+  </section>
+
+  <section id="tresult" class="panel hidden">
+    <p class="kicker" id="tr-kicker">挑戦 1回目</p>
+    <p class="big"><span id="tr-score">0</span><small id="tr-unit">点</small></p>
+    <p class="sub"><span class="pts-only">斬った <b id="tr-objects">0</b> / </span><span class="fr-only">全</span><span id="tr-total">0</span><span class="fr-only">個中</span><span id="tr-hits-wrap">・<span id="tr-hits-label">当たった</span> <b id="tr-hits">0</b></span></p>
+    <p class="sub best" id="tr-best"></p>
+    <p class="how" id="tr-next"></p>
+    <div class="btns">
+      <button id="btn-dan-next" class="btn primary">次のステージへ</button>
+      <button id="btn-next" class="btn primary">再挑戦</button>
+      <button id="btn-reset" class="btn small">最初からやり直す（記録を消す）</button>
+    </div>
+  </section>
+
+  <section id="interlude" class="panel hidden">
+    <p class="kicker">常人の目では</p>
+    <p class="big"><span id="i-cuts">0</span><small>斬</small></p>
+    <p class="sub"><span id="i-objects">0</span> / <span id="i-total">0</span> <span class="unit">枚</span>を斬った<span id="i-hits"></span></p>
+    <p class="how">同じ<b id="i-real">5秒</b>を、達人の目で。<br>時が<b id="i-slow">5</b>倍遅く流れる。</p>
+    <div class="btns">
+      <button id="btn-master" class="btn primary">達人の目で斬る</button>
+    </div>
+  </section>
+
+  <section id="result" class="panel hidden">
+    <p class="kicker" id="r-kicker">現実の5秒で</p>
+    <p class="big"><span id="r-cuts">0</span><small>斬</small></p>
+    <p class="sub"><span id="r-objects">0</span> / <span id="r-total">0</span> <span class="unit">枚</span>を斬った<span id="r-hits"></span></p>
+    <p class="sub compare">常人の目 <b id="r-normal">0</b>斬 → 達人の目 <b id="r-master">0</b>斬</p>
+    <p class="rank">段位 <b id="r-rank">見習い</b></p>
+    <div class="btns">
+      <button id="btn-fast" class="btn">もう一度見る（5秒）</button>
+      <button id="btn-slow" class="btn">達人の目で見る（25秒）</button>
+      <button id="btn-retry-master" class="btn primary">達人の目でもう一度</button>
+      <button id="btn-retry" class="btn">最初から（常人の目から）</button>
+    </div>
+  </section>
+  <canvas id="confetti"></canvas>
+</div>
+<script type="module" src="./src/main.ts"></script>
+</body>
+</html>

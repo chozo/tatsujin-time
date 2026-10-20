@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1200px; height: 630px; overflow: hidden; font-family: 'Shippori Mincho B1', 'Hiragino Mincho ProN', serif; color: #f6efe2;
+    background: radial-gradient(ellipse at 30% 40%, #2a2440 0%, #15101f 55%, #0b060c 100%); position: relative; }
+  .left { position: absolute; left: 64px; top: 0; bottom: 0; width: 560px; display: flex; flex-direction: column; justify-content: center; }
+  .kicker { font-size: 22px; letter-spacing: 0.3em; color: rgba(246,239,226,0.7); font-weight: 600; }
+  h1 { white-space: nowrap; font-size: 92px; font-weight: 800; letter-spacing: 0.04em; line-height: 1.15; margin-top: 8px;
+    text-shadow: 0 0 36px rgba(255,120,60,0.45); }
+  .tag { margin-top: 20px; font-size: 36px; font-weight: 800; line-height: 1.5; }
+  .tag b { color: #e8c26a; }
+  /* 挑戦するたびに遅く見えていく流れ */
+  .steps { margin-top: 24px; display: flex; align-items: center; gap: 10px; }
+  .step { text-align: center; padding: 8px 12px; border-radius: 10px; border: 1.5px solid rgba(246,239,226,0.35); background: rgba(255,255,255,0.05);
+    font-size: 21px; font-weight: 800; white-space: nowrap; line-height: 1.25; }
+  .step small { display: block; font-size: 14px; font-weight: 600; color: rgba(246,239,226,0.7); letter-spacing: 0.1em; }
+  .step.last { border-color: #e8c26a; color: #e8c26a; box-shadow: 0 0 18px rgba(232,194,106,0.3); }
+  .gt { color: #e8c26a; font-size: 16px; }
+  .dots { color: rgba(246,239,226,0.7); font-size: 20px; letter-spacing: 0.1em; }
+  .sub { margin-top: 24px; font-size: 21px; font-weight: 600; color: rgba(246,239,226,0.78); letter-spacing: 0.06em; }
+  .url { margin-top: 26px; font-size: 20px; font-weight: 800; color: #e8c26a; letter-spacing: 0.06em; font-family: 'Shippori Mincho B1', serif; }
+  .right { position: absolute; right: 48px; top: 0; bottom: 0; display: flex; align-items: center; gap: 40px; }
+  .card { position: relative; width: 232px; }
+  .label { text-align: center; font-size: 22px; font-weight: 800; margin-bottom: 10px; letter-spacing: 0.08em; white-space: nowrap; }
+  .card.cut .label { color: #e8c26a; }
+  .shot { width: 232px; height: 406px; border-radius: 14px; background-size: 100% auto; background-position: center 50%;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55), 0 0 0 2px rgba(246,239,226,0.18); }
+  .card.cut .shot { box-shadow: 0 18px 40px rgba(0,0,0,0.55), 0 0 0 3px rgba(232,194,106,0.85), 0 0 34px rgba(232,194,106,0.35); }
+  .arrow { position: absolute; left: 232px; width: 40px; top: 50%; text-align: center; font-size: 28px; color: #e8c26a; transform: translateY(6px); }
+  .note { position: absolute; right: 48px; bottom: 26px; width: 504px; text-align: center; font-size: 16px; color: rgba(246,239,226,0.6); letter-spacing: 0.12em; }
+</style></head>
+<body>
+  <div class="left">
+    <p class="kicker">ブラウザゲーム</p>
+    <h1>達人の時間</h1>
+    <p class="tag">挑戦するたびに、<br><b>時がゆっくり見えてくる。</b></p>
+    <div class="steps">
+      <div class="step"><small>1回目</small>現実の速さ</div>
+      <span class="gt">▶</span>
+      <div class="step"><small>2回目</small>2倍遅く</div>
+      <span class="gt">▶</span>
+      <span class="dots">…</span>
+      <span class="gt">▶</span>
+      <div class="step last"><small>10回目</small>10倍遅く</div>
+    </div>
+    <p class="sub">頭上から落ちてくる物体をすべて斬れ。</p>
+    <p class="url">game.chozo.net/tatsujin-time</p>
+  </div>
+  <div class="right">
+    <div class="card"><p class="label">斬る前</p><div class="shot" style="background-image:url(before.png)"></div></div>
+    <div class="card cut"><p class="label">斬った瞬間</p><div class="shot" style="background-image:url(after.png)"></div></div>
+    <div class="arrow">▶</div>
+  </div>
+  <p class="note">ステージ5：果物・薪・栗・紙風船を、すべて斬る</p>
+</body></html>
